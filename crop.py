@@ -1,7 +1,8 @@
-import cv2
+
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
+import cv2
 
 def cropping(image_path):
     image = cv2.imread(image_path)

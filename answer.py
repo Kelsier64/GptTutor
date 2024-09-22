@@ -11,27 +11,15 @@ ENDPOINT = "https://hsh2024.openai.azure.com/openai/deployments/gpt4o/chat/compl
 init = {
     "role": "system",
     "content":  """
-                把圖片中的題目敘述 圖片説明 （如果有圖片就輸出對題目有用的敘述 盡量詳細） 選項 變成文字
-                格式：題號和題目敘述\n圖片説明 （如果有）\n選項
+                根據題目敘述回答答案 答案格式 ： 第number題answer /n number是題號 answer是答案 ABCD即可 不用括弧 
                 """
 }
-def encode_image(image_path):
-    with open(image_path, 'rb') as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
-def gpt4o():
-    base64_image = encode_image("cropped_image.jpg")
+def gpt4o(question):
     messages = []
     messages.append(init)
         # 添加用戶輸入到 messages 中
     messages.append({"role": "user", 
-                    "content": [
-                        {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:image/jpeg;base64,{base64_image}"
-                        }
-                        }
-                    ]
+                    "content": question
                     })  
     payload = {  
         "messages": messages,
