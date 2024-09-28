@@ -2,6 +2,7 @@ import base64
 import key
 import requests
 import json
+import cv2
 API_KEY = key.API_KEY
 headers = {  
     "Content-Type": "application/json",  
@@ -15,11 +16,14 @@ init = {
                 格式：題號和題目敘述\n圖片説明 （如果有）\n選項
                 """
 }
-def encode_image(image_path):
-    with open(image_path, 'rb') as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
-def gpt4o():
-    base64_image = encode_image("cropped_image.jpg")
+def encode_image(img):
+    # 將圖像編碼為 JPEG 格式，返回 (retval, buffer)
+    retval, buffer = cv2.imencode(".jpg", img)
+    # 將編碼後的圖像轉換為 Base64 字符串
+    return base64.b64encode(buffer).decode('utf-8')
+
+def gpt4o(img):
+    base64_image = encode_image(img)
     messages = []
     messages.append(init)
         # 添加用戶輸入到 messages 中
