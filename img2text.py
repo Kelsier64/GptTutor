@@ -12,8 +12,8 @@ ENDPOINT = "https://hsh2024.openai.azure.com/openai/deployments/gpt4o/chat/compl
 init = {
     "role": "system",
     "content":  """
-                把圖片中的題目敘述 圖片説明 （如果有圖片就輸出對題目有用的敘述 盡量詳細） 選項 變成文字
-                格式：題號和題目敘述\n圖片説明 （如果有）\n選項
+                把圖片中的題目敘述 圖片説明 （如果有圖片就輸出對題目有用的敘述 盡量詳細）題目强調或劃綫的部分 選項 變成文字 
+                格式：題號和題目敘述： \n題目强調或劃綫的部分： \n圖片説明： （如果有）\n選項：（如果有）
                 """
 }
 def encode_image(img):
