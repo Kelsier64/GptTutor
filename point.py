@@ -28,7 +28,7 @@ def blue(img):
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
 # 定義藍色的HSV範圍
-    lower_blue = np.array([70, 50, 0])  # 藍色的下界
+    lower_blue = np.array([70, 0, 0])  # 藍色的下界
     upper_blue = np.array([140, 255, 255])  # 藍色的上界
 
 # 創建遮罩，過濾掉非藍色部分
@@ -71,7 +71,7 @@ def camera(img):
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
 # 定義藍色的HSV範圍
-    lower_blue = np.array([70, 50, 0])  # 藍色的下界
+    lower_blue = np.array([70, 20, 0])  # 藍色的下界
     upper_blue = np.array([140, 255, 255])  # 藍色的上界
 
 # 創建遮罩，過濾掉非藍色部分

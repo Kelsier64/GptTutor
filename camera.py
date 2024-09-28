@@ -1,8 +1,7 @@
 import cv2
 import numpy as np
 import point
-import img2text
-import answer
+import ai
 import time
 # 開啟相機
 cap = cv2.VideoCapture(0)  # 0 通常是預設的相機
@@ -22,9 +21,9 @@ while True:
     else:
         count = 0
     if count == 20:
-        reply = img2text.gpt4o(img)
+        reply = ai.img2text(img)
         print(reply)
-        ans = answer.gpt4o(reply)
+        ans = ai.answer(reply)
         print(ans)
         count = 0
         time.sleep(10)
