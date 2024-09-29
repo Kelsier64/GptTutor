@@ -66,24 +66,17 @@ def blue(img):
 
 def camera(img):
     image = img
-
-# 將圖片從 BGR 轉換到 HSV
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
-# 定義藍色的HSV範圍
-    lower_blue = np.array([70, 20, 0])  # 藍色的下界
+    lower_blue = np.array([70, 50, 0])  # 藍色的下界
     upper_blue = np.array([140, 255, 255])  # 藍色的上界
 
-# 創建遮罩，過濾掉非藍色部分
     mask = cv2.inRange(hsv, lower_blue, upper_blue)
 
-# 尋找輪廓
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-# 儲存點的座標
     blue_points = []
 
-# 遍歷每個輪廓，計算中心點
     for contour in contours:
         M = cv2.moments(contour)
         if M["m00"] != 0:
