@@ -7,6 +7,8 @@ import re
 import json
 from gtts import gTTS
 import os
+import speech
+
 def str_code(response):
     string = re.search(r'```(.*?)```', response, re.DOTALL)
     if string:
@@ -57,10 +59,7 @@ while True:
         print(deta)
         text = "第"+ deta[0]["number"] + "題" + deta[0]["answer"]
         print(text)
-
-        tts = gTTS(text=text, lang='zh', slow=False)
-        tts.save("output.mp3")
-        os.system("start output.mp3")
+        speech.speak(text)
 
         count = 0
         time.sleep(30)
