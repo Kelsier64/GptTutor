@@ -68,7 +68,7 @@ def camera(img):
     image = img
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
-    lower_blue = np.array([70, 50, 0])  # 藍色的下界
+    lower_blue = np.array([70, 30, 0])  # 藍色的下界
     upper_blue = np.array([140, 255, 255])  # 藍色的上界
 
     mask = cv2.inRange(hsv, lower_blue, upper_blue)

@@ -5,15 +5,13 @@ import ai
 import time
 import re
 import json
-# 開啟相機
-cap = cv2.VideoCapture(0)  # 0 通常是預設的相機
-count = 0
-
+from gtts import gTTS
+import os
 def str_code(response):
     string = re.search(r'```(.*?)```', response, re.DOTALL)
     if string:
         code = string.group(0)
-        code = code.replace('\n', '')  
+        code = code.replace('\n','')  
     else:
         print("未找到內容")
     return code
@@ -25,6 +23,9 @@ def json_code(response):
     else:
         print("未找到內容")
     return code
+
+cap = cv2.VideoCapture(0)  # 0 通常是預設的相機
+count = 0
 
 while True:
     # 捕獲幀
@@ -52,11 +53,17 @@ while True:
         print(ans)
         print("======================================================")
         ans_json = json_code(str_code(ans))
-        data = json.loads(ans_json)
-        print(data)
-        print(data[0]["number"])
+        deta = json.loads(ans_json)
+        print(deta)
+        text = "第"+ deta[0]["number"] + "題" + deta[0]["answer"]
+        print(text)
+
+        tts = gTTS(text=text, lang='zh', slow=False)
+        tts.save("output.mp3")
+        os.system("start output.mp3")
+
         count = 0
-        time.sleep(10)
+        time.sleep(30)
         
 
     cv2.imshow("blue", img)

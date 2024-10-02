@@ -1,10 +1,14 @@
-import json
+from gtts import gTTS
+import os
 
-# 字串
-s = "[2,3,4]"
+# 要轉換的文本
+text = "你好，這是一個文本到語音的示例。"
 
-# 將字串轉換為列表
-lst = json.loads(s)
+# 創建 gTTS 對象
+tts = gTTS(text=text, lang='zh', slow=False)
 
-# 輸出結果
-print(lst)  # [2, 3, 4]
+# 保存語音文件
+tts.save("output.mp3")
+
+# 播放語音文件
+os.system("start output.mp3")  # Windows 使用 start，Linux 使用 xdg-open
