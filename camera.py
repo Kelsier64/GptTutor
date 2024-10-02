@@ -8,13 +8,23 @@ import json
 # 開啟相機
 cap = cv2.VideoCapture(0)  # 0 通常是預設的相機
 count = 0
-def find_json(text):
-    json_match = re.search(r'```(.*?)```', text, re.DOTALL)
-    if json_match:
-        json_str = json_match.group(0)  # 提取 JSON 部分
+
+def str_code(response):
+    string = re.search(r'```(.*?)```', response, re.DOTALL)
+    if string:
+        code = string.group(0)
+        code = code.replace('\n', '')  
     else:
-        print("未找到 JSON 內容")
-    return json_str
+        print("未找到內容")
+    return code
+
+def json_code(response):
+    string = re.search(r'\[(.*)\]', response, re.DOTALL)
+    if string:
+        code = string.group(0)  
+    else:
+        print("未找到內容")
+    return code
 
 while True:
     # 捕獲幀
@@ -35,14 +45,16 @@ while True:
         reply = ai.img2text(img)
         print(reply)
         print("======================================================")
-        reply_json = find_json(reply)
+        reply_json = json_code(str_code(reply))
         print(reply_json)
         print("======================================================")
         ans = ai.answer(reply_json)
         print(ans)
         print("======================================================")
-        ans_json = find_json(ans)
-        print(ans_json)
+        ans_json = json_code(str_code(ans))
+        data = json.loads(ans_json)
+        print(data)
+        print(data[0]["number"])
         count = 0
         time.sleep(10)
         

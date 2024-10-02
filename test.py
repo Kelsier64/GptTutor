@@ -1,28 +1,37 @@
 import re
 import json
-
 res = '''
+klewjqrljlkqwjrklqwejS
 ```json
 [
     {
         "number": "8",
-        "text": "已知在△ABC中，若△ABC之內切圓分別切三邊BC、CA、AB於A1、B1、C1三點，其中∠BA1C1=θ1，如圖(一)；而圖(二)中△A1B1C1之內切圓分別切三邊B1C1、C1A1、A1B1於A2、B2、C2三點，其中∠B1A2C2=θ2，如圖(二)。依此規則遞迴下去，可得一數列{θn}，其中n為正整數。則下列選項何者正確？\n\n(1) θ1+2θ2=180°\n(2) {θn}為一等差數列\n(3)數列{θn}的通項公式為θn=θ1-90°(n-1)，其中n≥2\n(4)數列{θn} 為等比數列，且sinθn/sinθ1=cos^n(θ1/2)恒成立\n(5)若θ1=60°，則{θn}既為等差數列亦為等比數列",
-        "image_description": "圖(一)：一個三角形ABC，內切圓分別切三邊BC、CA、AB於A1、B1、C1三點，並標示角度∠BA1C1=θ1。\n\n圖(二)：一個較小的三角形A1B1C1，內切圓分別切三邊B1C1、C1A1、A1B1於A2、B2、C2三點，並標示角度∠B1A2C2=θ2。此過程可以遞迴下去。",  
-        "options": "(1) θ1+2θ2=180°\n(2) {θn}為一等差數列\n(3)數列{θn}的通項公式為θn=θ1-90°(n-1)，其中n≥2\n(4)數列{θn}為等比 數列，且sinθn/sinθ1=cos^n(θ1/2)恒成立\n(5)若θ1=60°，則{θn}既為等差數列亦為等比數列",
-        "idea": "根據題目描述，三角形內切圓的遞迴過程形成一個數列{θn}。分析選項：(1) θ1+2θ2=180°：需要檢查是否符合內角和的特 性。(2) {θn}為一等差數列：需要檢查每個θn之間的差是否相等。(3) 數列{θn}的通項公式為θn=θ1-90°(n-1)，其中n≥2：需要檢查通項公式是否成立。(4) 數列{θn}為等比數列，且sinθn/sinθ1=cos^n(θ1/2)恒成立：需要檢查等比數列的特性及公式是否成立。(5) 若θ1=60°，則{θn}既為等差數列亦為等比數列：需要檢查θ1=60°時，是否同時符合等差數列和等比數列的特性。根據內切圓和三角形的性質，進行計算和驗證。", 
-        "answer": "選項(4)正確。"
+        "text": "已知在ABC中，若△ABC之內切圓分別切三邊BC、CA、AB於A1、B1、C1三點，其中∠B1A1C1=0，如圖(一)中，內切圓O之內切圓 分別切三邊BC、CA、AB於A2、B2、C2三點，其中∠B2A2C2=θ，如圖(二)中，依此規則推演下去，可得一數列，其中n為正整數，則下列選項 何者正θ1+2θ2=180° 為一個等差數列數列的遞迴公式為θn=θn-1 - θn-2，其中n≥2\n(4)所有的頂點A1、B1、C1、A2、B2"
+
     }
 ]
 ```
 '''
 
-def parse_code(response):
-    json_match = re.search(r'```(.*?)```', response, re.DOTALL)
-    if json_match:
-        json_str = json_match.group(0)  # 提取 JSON 部分
+def str_code(response):
+    string = re.search(r'```(.*?)```', response, re.DOTALL)
+    if string:
+        code = string.group(0)
+        code = code.replace('\n', '')  
     else:
-        print("未找到 JSON 內容")
-    return json_str
+        print("未找到內容")
+    return code
 
+def json_code(response):
+    string = re.search(r'\[(.*)\]', response, re.DOTALL)
+    if string:
+        code = string.group(0)  
+    else:
+        print("未找到內容")
+    return code
 
-print(parse_code(res))
+ans_json = json_code(str_code(res))
+print(ans_json)
+data = json.loads(ans_json)
+print(data)
+print(data[0]["number"])
