@@ -1,2 +1,3 @@
 .venv
-key.py
+.env
+__pycache__

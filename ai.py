@@ -1,9 +1,12 @@
 import base64
-import key
 import requests
 import json
 import cv2
-API_KEY = key.API_KEY
+from dotenv import load_dotenv
+import os
+load_dotenv()
+API_KEY = os.getenv("API_KEY")
+
 headers = {  
     "Content-Type": "application/json",  
     "api-key": API_KEY,  
