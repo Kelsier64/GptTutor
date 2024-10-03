@@ -1,52 +1,42 @@
 import streamlit as st
+import openai
 import os
 import json
 import time
+import openai
 import re
-from dotenv import load_dotenv
 import requests
+import sys
+from num2words import num2words
+import pandas as pd
+import numpy as np
+import tiktoken
+from dotenv import load_dotenv
+from openai import AzureOpenAI
 load_dotenv()
+
 API_KEY = os.getenv("AZURE_OPENAI_API_KEY") 
 RESOURCE_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT") 
 deployment_name = "gpt4o"
-api_version = "2024-09-01-preview"
-endpoint_url = RESOURCE_ENDPOINT+"/openai/deployments/"+deployment_name+"/chat/completions?api-version="+api_version
-headers = {  
-    "Content-Type": "application/json",  
-    "api-key": API_KEY,  
-} 
 
-def str_code(response):
-    string = re.search(r'```(.*?)```', response, re.DOTALL)
-    if string:
-        code = string.group(0)
-        code = code.replace('\n','')  
-        return code
-    else:
-        return response
-def json_code(response):
-    string = re.search(r'\{(.*)\}', response, re.DOTALL)
-    if string:
-        code = string.group(0)  
-        return code
-    else:
-        return response
-    
-
+client = AzureOpenAI(
+  api_key = os.getenv("AZURE_OPENAI_API_KEY"),  
+  api_version = "2024-09-01-preview",
+  azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+) # Initialize the OpenAI client
 
 def make_api_call(messages, max_tokens, is_final_answer=False):
     for attempt in range(3):
         try:
-            payload = {  
-            "messages": messages,
-            "temperature": 0.2,  
-            "top_p": 0.95,  
-            "max_tokens": max_tokens
-            }
-            response = requests.post(endpoint_url, headers=headers, data=json.dumps(payload))  
-            response_data = response.json()
-
-            return response_data['choices'][0]['message']['content']
+            response = client.chat.completions.create(
+                model=deployment_name,  # Using GPT-3.5 Turbo, adjust as needed
+                messages=messages,
+                max_tokens=max_tokens,
+                temperature=0.2,
+                response_format={"type": "json_object"}
+            )
+            print(response.choices[0].message.content)
+            return json.loads(response.choices[0].message.content)
         except Exception as e:
             if attempt == 2:
                 if is_final_answer:

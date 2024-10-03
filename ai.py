@@ -5,13 +5,16 @@ import cv2
 from dotenv import load_dotenv
 import os
 load_dotenv()
-API_KEY = os.getenv("API_KEY")
-
+API_KEY = os.getenv("AZURE_OPENAI_API_KEY") 
+RESOURCE_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT") 
+deployment_name = "gpt4o"
+api_version = "2024-09-01-preview"
 headers = {  
     "Content-Type": "application/json",  
     "api-key": API_KEY,  
-} 
-ENDPOINT = "https://hsh2024.openai.azure.com/openai/deployments/gpt4o/chat/completions?api-version=2024-02-15-preview"  
+}
+endpoint_url = RESOURCE_ENDPOINT+"/openai/deployments/"+deployment_name+"/chat/completions?api-version="+api_version
+
 init_img2text = {
     "role": "user",
     "content":  """
@@ -43,7 +46,6 @@ def encode_image(img):
 def img2text(img):
     base64_image = encode_image(img)
     messages = []
-    
         # 添加用戶輸入到 messages 中
     messages.append({"role": "user", 
                     "content": [
@@ -62,7 +64,7 @@ def img2text(img):
         "top_p": 0.95,  
         "max_tokens": 2000  
     }
-    response = requests.post(ENDPOINT, headers=headers, data=json.dumps(payload))  
+    response = requests.post(endpoint_url, headers=headers, data=json.dumps(payload))  
     if response.status_code == 200:  
         response_data = response.json()  
         reply = response_data['choices'][0]['message']['content']
@@ -84,11 +86,10 @@ init_answer = {
 }
 def answer(question):
     messages = []
-    
         # 添加用戶輸入到 messages 中
     messages.append({"role": "user", 
                     "content": question
-                    })  
+                    })
     messages.append(init_answer)
     payload = {  
         "messages": messages,
@@ -96,7 +97,7 @@ def answer(question):
         "top_p": 0.95,  
         "max_tokens": 800  
     }
-    response = requests.post(ENDPOINT, headers=headers, data=json.dumps(payload))  
+    response = requests.post(endpoint_url, headers=headers, data=json.dumps(payload))  
     if response.status_code == 200:  
         response_data = response.json()  
         reply = response_data['choices'][0]['message']['content']
