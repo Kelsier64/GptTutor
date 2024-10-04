@@ -118,7 +118,7 @@ Example of a valid JSON response:
 
     steps.append(("Final Answer", final_data['content'], thinking_time))
 
-    yield steps,total_thinking_time
+    yield steps, total_thinking_time
 
 def main():
     st.set_page_config(page_title="OpenAI OpenAI Reasoning Chains", page_icon="🧠", layout="wide")
