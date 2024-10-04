@@ -37,8 +37,7 @@ response = requests.post(url, headers=headers, data=json.dumps(payload))
 
 if response.status_code == 200:  
     response_data = response.json()  
-    content = str_code(response_data['choices'][0]['message']['content'])
-    reply = json.loads(content)
+    reply = response_data['choices'][0]['message']['content']
     print(reply)
 else:
     print(response)

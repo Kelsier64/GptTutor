@@ -2,3 +2,9 @@ opencv-python
 numpy
 matplotlib
 pillow
+python-dotenv
+streamlit
+num2words
+openai
+gtts
+tiktoken
